@@ -1,41 +1,37 @@
 import 'package:get/get.dart';
-import 'package:pas_mobile_11pplg2_01/controllers/show_controller.dart';
 import 'package:pas_mobile_11pplg2_01/database/db_helper.dart';
 import 'package:pas_mobile_11pplg2_01/models/tvshow_model.dart';
 
 class BookmarkController extends GetxController {
-  var isLoading = false.obs;
-  final DbHelper dbHelper = DbHelper();
-  final ShowController showController = Get.find<ShowController>();
-  final RxList<TvShowModel> bookmarkedShows = <TvShowModel>[].obs;
+  final dbHelper = DbHelper();
+
+  var bookmarks = <TvShowModel>[].obs;
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
-    fetchBookmarkedShows();
+    loadBookmarks();
   }
 
-  Future<void> fetchBookmarkedShows() async {
-    bookmarkedShows.value = await showController.showsList
-        .where((shows) => shows.isBookmarked)
-        .toList();
-  }
-
-  void toogleBookmark(int tvShowId) async {
-    final index = showController.showsList.indexWhere(
-      (tvShow) => tvShow.id == tvShowId,
-    );
-    if (index != -1) {
-      final currentStatus = showController.showsList[index].isBookmarked;
-      showController.showsList[index].isBookmarked = !currentStatus;
-      showController.showsList.refresh();
-      if (showController.showsList[index].isBookmarked) {
-        dbHelper.deleteById(showController.showsList[index].id);
-      } else {
-        dbHelper.insertBookmark(showController.showsList[index]);
-      }
-      dbHelper.printAllData();
+  Future<void> loadBookmarks() async {
+    final data = await dbHelper.getList();
+    for (var tv in data) {
+      tv.isBookmarkedRx.value = true; // penting!
     }
+    bookmarks.assignAll(data);
+  }
+
+  Future<void> addBookmark(TvShowModel tvShow) async {
+    await dbHelper.insertBookmark(tvShow);
+    await loadBookmarks();
+  }
+
+  Future<void> removeBookmark(int id) async {
+    await dbHelper.deleteById(id);
+    await loadBookmarks();
+  }
+
+  bool isBookmarked(int id) {
+    return bookmarks.any((b) => b.id == id);
   }
 }

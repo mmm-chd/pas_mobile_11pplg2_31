@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
 import 'package:pas_mobile_11pplg2_01/components/widgets/myButton_widget.dart';
 import 'package:pas_mobile_11pplg2_01/components/widgets/mySpace_widget.dart';
 import 'package:pas_mobile_11pplg2_01/components/widgets/myTextField_widget.dart';
@@ -42,7 +41,7 @@ class LoginPage extends StatelessWidget {
             const MyspaceWidget(height: 16.0),
             GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.registerPage);
+                Get.offAllNamed(AppRoutes.registerPage);
               },
               child: RichText(
                 text: TextSpan(

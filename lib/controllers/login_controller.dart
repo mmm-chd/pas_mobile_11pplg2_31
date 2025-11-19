@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -35,14 +34,16 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         final loginData = loginModelFromJson(response.body);
 
-        Get.snackbar('LOGIN STATUS', loginData.message);
-
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', loginData.token.toString());
 
         if (loginData.status) {
           print('Login Successful');
-          Get.snackbar('Success', 'Login Successful');
+          Get.snackbar(
+            'Success',
+            'Login Successful',
+            snackPosition: SnackPosition.BOTTOM,
+          );
           Get.offAllNamed(AppRoutes.basePage);
         }
       }
