@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pas_mobile_11pplg2_01/components/widgets/myButton_widget.dart';
 import 'package:pas_mobile_11pplg2_01/components/widgets/myCard_widget.dart';
-import 'package:pas_mobile_11pplg2_01/components/widgets/mySpace_widget.dart';
 import 'package:pas_mobile_11pplg2_01/components/widgets/myText_widget.dart';
 import 'package:pas_mobile_11pplg2_01/controllers/profile_controller.dart';
 
@@ -14,6 +13,11 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: MytextWidget(text: 'My Profile'),
+        backgroundColor: Colors.lightBlue,
+        foregroundColor: Colors.white,
+      ),
       body: Container(
         margin: EdgeInsets.all(14),
         child: Center(

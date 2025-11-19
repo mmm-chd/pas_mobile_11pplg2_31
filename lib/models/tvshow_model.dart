@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 List<TvShowModel> tvShowModelFromJson(String str) => List<TvShowModel>.from(
   json.decode(str).map((x) => TvShowModel.fromJson(x)),
 );
@@ -32,6 +34,7 @@ class TvShowModel {
   int updated;
   Links links;
   bool isBookmarked;
+  RxBool isBookmarkedRx = false.obs;
 
   TvShowModel({
     required this.id,
@@ -58,7 +61,9 @@ class TvShowModel {
     required this.updated,
     required this.links,
     required this.isBookmarked,
-  });
+  }) {
+    isBookmarkedRx.value = isBookmarked;
+  }
 
   factory TvShowModel.fromJson(Map<String, dynamic> json) => TvShowModel(
     id: json["id"],
@@ -88,7 +93,7 @@ class TvShowModel {
     summary: json["summary"],
     updated: json["updated"],
     links: Links.fromJson(json["_links"]),
-    isBookmarked: json["isBookmarked"] == null ? false : json["isBookmarked"] == 1,
+    isBookmarked: json["isBookmarked"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -117,7 +122,7 @@ class TvShowModel {
     "summary": summary,
     "updated": updated,
     "_links": links.toJson(),
-    "isBookmarked": isBookmarked ? 1 : 0,
+    "isBookmarked": isBookmarked,
   };
 }
 

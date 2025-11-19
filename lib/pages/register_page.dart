@@ -56,7 +56,7 @@ class RegisterPage extends StatelessWidget {
             const MyspaceWidget(height: 16.0),
             GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.loginPage);
+                Get.offAllNamed(AppRoutes.loginPage);
               },
               child: RichText(
                 text: TextSpan(

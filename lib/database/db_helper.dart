@@ -30,8 +30,8 @@ class DbHelper {
       version: 1,
       onCreate: (db, version) async {
         await db.execute('''CREATE TABLE bookmarked(
-          id INTEGER PRIMARY KEY, 
-          isBookmarked INTEGER DEFAULT 0)''');
+          id INTEGER PRIMARY KEY,
+          name TEXT)''');
       },
     );
   }
@@ -51,8 +51,8 @@ class DbHelper {
     final client = await db;
     return client.insert('bookmarked', {
       'id': tvShow.id,
-      'isBookmarked': tvShow.isBookmarked ? 1 : 0,
-    });
+      'name': jsonEncode(tvShow.toJson()),
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   // // Update data
@@ -69,11 +69,11 @@ class DbHelper {
   // Get data
   Future<List<TvShowModel>> getList() async {
     final client = await db;
-    final List<Map<String, dynamic>> data = await client.query(
-      'bookmarked',
-      orderBy: 'id DESC',
-    );
-    return tvShowModelFromJson(jsonEncode(data)).toList();
+    final List<Map<String, dynamic>> data = await client.query('bookmarked');
+
+    return data.map((row) {
+      return TvShowModel.fromJson(jsonDecode(row["data"]));
+    }).toList();
   }
 
   //Delete task berdasarkan ID
@@ -85,11 +85,7 @@ class DbHelper {
   //Delete semua task
   Future<void> deleteAllCompleted() async {
     final client = await db;
-    await client.delete(
-      'bookmarked',
-      where: 'isBookmarked = ?',
-      whereArgs: [1],
-    );
+    await client.delete('bookmarked', where: 'name = ?', whereArgs: []);
   }
 
   // // uppdate isCompleted When complete menu tapped

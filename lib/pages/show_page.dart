@@ -3,16 +3,23 @@ import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:pas_mobile_11pplg2_01/components/widgets/mySpace_widget.dart';
 import 'package:pas_mobile_11pplg2_01/components/widgets/myText_widget.dart';
+import 'package:pas_mobile_11pplg2_01/controllers/bookmark_controller.dart';
 import 'package:pas_mobile_11pplg2_01/controllers/show_controller.dart';
 
 class ShowPage extends StatelessWidget {
   ShowPage({super.key});
 
   final ShowController showController = Get.find<ShowController>();
+  final BookmarkController bookmarkController = Get.find<BookmarkController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('TV Shows'),
+        backgroundColor: Colors.lightBlue,
+        foregroundColor: Colors.white,
+      ),
       body: Center(
         child: Obx(() {
           if (showController.isLoading.value) {
@@ -69,18 +76,21 @@ class ShowPage extends StatelessWidget {
                                         fontSize: 16,
                                       ),
                                       maxLines: 1,
-                                      text: '${tvShow.name}',
+                                      text: tvShow.name,
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      showController.toogleBookmark(tvShow.id);
+                                      showController.toggleBookmark(tvShow);
                                     },
                                     child: Icon(
-                                      tvShow.isBookmarked
+                                      bookmarkController.isBookmarked(tvShow.id)
                                           ? Icons.favorite
                                           : Icons.favorite_border,
-                                      color: tvShow.isBookmarked
+                                      color:
+                                          bookmarkController.isBookmarked(
+                                            tvShow.id,
+                                          )
                                           ? Colors.red
                                           : Colors.grey,
                                     ),
