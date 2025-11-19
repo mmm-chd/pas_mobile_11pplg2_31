@@ -79,20 +79,24 @@ class ShowPage extends StatelessWidget {
                                       text: tvShow.name,
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showController.toggleBookmark(tvShow);
-                                    },
-                                    child: Icon(
-                                      bookmarkController.isBookmarked(tvShow.id)
-                                          ? Icons.favorite
-                                          : Icons.favorite_border,
-                                      color:
-                                          bookmarkController.isBookmarked(
-                                            tvShow.id,
-                                          )
-                                          ? Colors.red
-                                          : Colors.grey,
+                                  Obx(
+                                    () => GestureDetector(
+                                      onTap: () {
+                                        showController.toggleBookmark(tvShow);
+                                      },
+                                      child: Icon(
+                                        bookmarkController.isBookmarked(
+                                              tvShow.id,
+                                            )
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color:
+                                            bookmarkController.isBookmarked(
+                                              tvShow.id,
+                                            )
+                                            ? Colors.red
+                                            : Colors.grey,
+                                      ),
                                     ),
                                   ),
                                 ],

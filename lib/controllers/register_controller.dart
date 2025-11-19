@@ -93,13 +93,21 @@ class RegisterController extends GetxController {
 
         if (loginData.status) {
           print('Account Created Successfully');
-          Get.snackbar('Success', 'Account Created Successfully');
+          Get.snackbar(
+            'Success',
+            'Account Created Successfully',
+            snackPosition: SnackPosition.BOTTOM,
+          );
           Get.offAllNamed(AppRoutes.loginPage);
         }
       }
     } catch (e) {
       final loginData = registerModelFromJson(response.body);
-      Get.snackbar('LOGIN STATUS', loginData.message);
+      Get.snackbar(
+        'LOGIN STATUS',
+        loginData.message,
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } finally {
       isLoading.value = false;
     }
