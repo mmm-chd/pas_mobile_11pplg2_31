@@ -55,25 +55,14 @@ class DbHelper {
     }, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  // // Update data
-  // Future<int> updateFavorite(ProductModel product) async {
-  //   final client = await db;
-  //   return await client.update(
-  //     'favorites',
-  //     {'id': product.id, 'isFavorite': product.isFavorite ? 1 : 0},
-  //     where: 'id = ?',
-  //     whereArgs: [product.id],
-  //   );
-  // }
-
   // Get data
   Future<List<TvShowModel>> getList() async {
     final client = await db;
-    final List<Map<String, dynamic>> data = await client.query('bookmarked');
-
-    return data.map((row) {
-      return TvShowModel.fromJson(jsonDecode(row["data"]));
-    }).toList();
+    final List<Map<String, dynamic>> data = await client.query(
+      'bookmarked',
+      orderBy: 'id DESC',
+    );
+    return tvShowModelFromJson(jsonEncode(data)).toList();
   }
 
   //Delete task berdasarkan ID
@@ -85,17 +74,21 @@ class DbHelper {
   //Delete semua task
   Future<void> deleteAllCompleted() async {
     final client = await db;
-    await client.delete('bookmarked', where: 'name = ?', whereArgs: []);
+    await client.delete(
+      'bookmarked',
+      where: 'isBookmarked = ?',
+      whereArgs: [1],
+    );
   }
 
-  // // uppdate isCompleted When complete menu tapped
-  // Future<void> updateIsCompleted(int id, int isFavorite) async {
+  // // Check if ID is bookmarked - FIXED: Tambah method helper
+  // Future<bool> isBookmarked(int id) async {
   //   final client = await db;
-  //   await client.update(
-  //     'favorites',
-  //     {'isFavorite': isFavorite},
-  //     where: 'id = ?',
-  //     whereArgs: [id],
+  //   final result = await client.query(
+  //     'bookmarked',
+  //     where: 'id = ? AND isBookmarked = ?',
+  //     whereArgs: [id, 1],
   //   );
+  //   return result.isNotEmpty;
   // }
 }

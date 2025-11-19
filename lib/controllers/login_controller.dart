@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pas_mobile_11pplg2_01/api/api_login.dart';
@@ -19,6 +19,8 @@ class LoginController extends GetxController {
       Get.snackbar(
         'Please Fill In',
         'Username and password cannot be empty',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
       return;
@@ -42,9 +44,19 @@ class LoginController extends GetxController {
           Get.snackbar(
             'Success',
             'Login Successful',
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
             snackPosition: SnackPosition.BOTTOM,
           );
           Get.offAllNamed(AppRoutes.basePage);
+        } else {
+          Get.snackbar(
+            'Error',
+            'Please check your fill in',
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+          );
         }
       }
     } catch (e) {
