@@ -16,6 +16,7 @@ class ShowPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 80,
         title: const Text('TV Shows'),
         backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.white,
