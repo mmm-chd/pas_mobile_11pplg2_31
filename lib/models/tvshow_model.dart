@@ -93,7 +93,7 @@ class TvShowModel {
     summary: json["summary"],
     updated: json["updated"],
     links: Links.fromJson(json["_links"]),
-    isBookmarked: json["isBookmarked"] == null ? false : true,
+    isBookmarked: json["isBookmarked"] ?? false,
   );
 
   Map<String, dynamic> toJson() => {

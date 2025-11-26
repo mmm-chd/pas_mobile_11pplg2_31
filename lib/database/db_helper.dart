@@ -31,7 +31,7 @@ class DbHelper {
       onCreate: (db, version) async {
         await db.execute('''CREATE TABLE bookmarked(
           id INTEGER PRIMARY KEY,
-          name TEXT)''');
+          data TEXT)''');
       },
     );
   }
@@ -48,21 +48,66 @@ class DbHelper {
 
   // Add data
   Future<int> insertBookmark(TvShowModel tvShow) async {
-    final client = await db;
-    return client.insert('bookmarked', {
-      'id': tvShow.id,
-      'name': jsonEncode(tvShow.toJson()),
-    }, conflictAlgorithm: ConflictAlgorithm.replace);
+    try {
+      final client = await db;
+      final result = await client.insert('bookmarked', {
+        'id': tvShow.id,
+        'data': jsonEncode(tvShow.toJson()), // ✅ Simpan seluruh object
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
+      print('✅ Bookmark inserted: ${tvShow.name} with result: $result');
+      return result;
+    } catch (e) {
+      print('❌ Error inserting bookmark: $e');
+      return -1;
+    }
   }
 
   // Get data
+  // Get data - FIXED with better null handling
   Future<List<TvShowModel>> getList() async {
-    final client = await db;
-    final List<Map<String, dynamic>> data = await client.query(
-      'bookmarked',
-      orderBy: 'id DESC',
-    );
-    return tvShowModelFromJson(jsonEncode(data)).toList();
+    try {
+      final client = await db;
+      final List<Map<String, dynamic>> data = await client.query(
+        'bookmarked',
+        orderBy: 'id DESC',
+      );
+
+      print('📦 Raw data from DB: $data');
+
+      if (data.isEmpty) {
+        print('⚠️ No bookmarks found');
+        return [];
+      }
+
+      // ✅ Parse setiap row dengan null check
+      List<TvShowModel> bookmarks = [];
+      for (var row in data) {
+        try {
+          // ✅ Ambil data dengan null check
+          final dataString = row['data']; // Support old schema
+
+          if (dataString == null || dataString.toString().isEmpty) {
+            print('⚠️ Empty data for row: $row');
+            continue;
+          }
+
+          final jsonData = jsonDecode(dataString.toString());
+          final tvShow = TvShowModel.fromJson(jsonData);
+          bookmarks.add(tvShow);
+        } catch (e, stackTrace) {
+          print('❌ Error parsing row: $e');
+          print('Stack trace: $stackTrace');
+          print('Problematic row: $row');
+        }
+      }
+
+      print('✅ Parsed ${bookmarks.length} bookmarks');
+      return bookmarks;
+    } catch (e, stackTrace) {
+      print('❌ Error getting bookmarks: $e');
+      print('Stack trace: $stackTrace');
+      return [];
+    }
   }
 
   //Delete task berdasarkan ID

@@ -46,9 +46,12 @@ class ShowController extends GetxController {
 
     if (bookmarkController.isBookmarked(tvShow.id)) {
       bookmarkController.removeBookmark(tvShow.id);
+      tvShow.isBookmarkedRx.value = false;
+      dbHelper.printAllData();
     } else {
       bookmarkController.addBookmark(tvShow);
+      tvShow.isBookmarkedRx.value = true;
+      dbHelper.printAllData();
     }
-    update();
   }
 }
