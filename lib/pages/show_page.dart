@@ -79,12 +79,12 @@ class ShowPage extends StatelessWidget {
                                       text: tvShow.name,
                                     ),
                                   ),
-                                  Obx(
-                                    () => GestureDetector(
-                                      onTap: () {
-                                        showController.toggleBookmark(tvShow);
-                                      },
-                                      child: Icon(
+                                  GestureDetector(
+                                    onTap: () {
+                                      showController.toggleBookmark(tvShow);
+                                    },
+                                    child: Obx(
+                                      () => Icon(
                                         bookmarkController.isBookmarked(
                                               tvShow.id,
                                             )
