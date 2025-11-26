@@ -16,6 +16,7 @@ class BookmarkPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 80,
         title: Text('Bookmarks'),
         backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.white,

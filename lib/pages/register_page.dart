@@ -35,7 +35,7 @@ class RegisterPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(
                       right: 14,
-                      top: 90,
+                      top: 30,
                       left: 14,
                     ),
                     child: Column(
