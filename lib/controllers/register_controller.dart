@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:pas_mobile_11pplg2_01/api/api_register.dart';
+import 'package:pas_mobile_11pplg2_01/api/api_log_reg.dart';
 import 'package:pas_mobile_11pplg2_01/models/register_model.dart';
 import 'package:pas_mobile_11pplg2_01/routes/app_routes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterController extends GetxController {
   var isLoading = false.obs;
@@ -12,6 +11,7 @@ class RegisterController extends GetxController {
   final passwordController = TextEditingController();
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
+  final isObsecure = true.obs;
 
   Future<void> register() async {
     final username = usernameController.text.trim();
@@ -76,7 +76,7 @@ class RegisterController extends GetxController {
 
     isLoading.value = true;
     final response = await http.post(
-      Uri.parse('${ApiRegister.baseUrl}${ApiRegister.registerEndpoint}'),
+      Uri.parse('${ApiLogReg.baseUrl}${ApiLogReg.registerEndpoint}'),
       body: {
         'username': username,
         'password': password,
@@ -111,5 +111,11 @@ class RegisterController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void tooglePassword() async {
+    isObsecure.value = !isObsecure.value;
+    await Future.delayed(Duration(seconds: 1));
+    isObsecure.value = true;
   }
 }

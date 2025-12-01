@@ -7,6 +7,7 @@ class BookmarkController extends GetxController {
   final dbHelper = DbHelper();
 
   var bookmarks = <TvShowModel>[].obs;
+  final showController = Get.find<ShowController>();
 
   @override
   void onInit() {
@@ -17,7 +18,7 @@ class BookmarkController extends GetxController {
   Future<void> loadBookmarks() async {
     final data = await dbHelper.getList();
     for (var tv in data) {
-      tv.isBookmarkedRx.value = true; // penting!
+      tv.isBookmarked = true;
     }
     bookmarks.assignAll(data);
     bookmarks.refresh();
@@ -25,7 +26,7 @@ class BookmarkController extends GetxController {
 
   Future<void> addBookmark(TvShowModel tvShow) async {
     await dbHelper.insertBookmark(tvShow);
-    tvShow.isBookmarkedRx.value = true; // ✅ Update reactive state
+    tvShow.isBookmarked = true;
     await loadBookmarks();
   }
 
@@ -33,10 +34,10 @@ class BookmarkController extends GetxController {
     await dbHelper.deleteById(id);
 
     // Update reactive state di showsList
-    final showController = Get.find<ShowController>();
+
     final show = showController.showsList.firstWhereOrNull((s) => s.id == id);
     if (show != null) {
-      show.isBookmarkedRx.value = false; // ✅ Update reactive state
+      show.isBookmarked = false;
     }
 
     await loadBookmarks();

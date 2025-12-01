@@ -15,6 +15,7 @@ class ShowPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 80,
         title: const Text('TV Shows'),
@@ -54,7 +55,7 @@ class ShowPage extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
-                            tvShow.image?.medium ?? '',
+                            tvShow.image.medium,
                             height: 150,
                             width: 100,
                             fit: BoxFit.cover,

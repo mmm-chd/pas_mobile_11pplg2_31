@@ -42,16 +42,20 @@ class ShowController extends GetxController {
   }
 
   void toggleBookmark(TvShowModel tvShow) {
-    final bookmarkController = Get.find<BookmarkController>();
-
-    if (bookmarkController.isBookmarked(tvShow.id)) {
-      bookmarkController.removeBookmark(tvShow.id);
-      tvShow.isBookmarkedRx.value = false;
-      dbHelper.printAllData();
-    } else {
-      bookmarkController.addBookmark(tvShow);
-      tvShow.isBookmarkedRx.value = true;
-      dbHelper.printAllData();
+    try {
+      final bookmarkController = Get.find<BookmarkController>();
+      print('toogle bookmark');
+      if (bookmarkController.isBookmarked(tvShow.id)) {
+        bookmarkController.removeBookmark(tvShow.id);
+        tvShow.isBookmarked = false;
+        print('remove ${tvShow}');
+      } else {
+        bookmarkController.addBookmark(tvShow);
+        tvShow.isBookmarked = true;
+        print('add ${tvShow}');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
     }
   }
 }
