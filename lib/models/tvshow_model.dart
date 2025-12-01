@@ -20,21 +20,17 @@ class TvShowModel {
   int? runtime;
   int averageRuntime;
   DateTime premiered;
-  DateTime? ended;
   String? officialSite;
   Schedule schedule;
   Rating rating;
   int weight;
   Network? network;
-  Network? webChannel;
-  Country? dvdCountry;
   Externals externals;
   Image image;
   String summary;
   int updated;
   Links links;
   bool isBookmarked;
-  RxBool isBookmarkedRx = false.obs;
 
   TvShowModel({
     required this.id,
@@ -47,23 +43,18 @@ class TvShowModel {
     required this.runtime,
     required this.averageRuntime,
     required this.premiered,
-    required this.ended,
     required this.officialSite,
     required this.schedule,
     required this.rating,
     required this.weight,
     required this.network,
-    required this.webChannel,
-    required this.dvdCountry,
     required this.externals,
     required this.image,
     required this.summary,
     required this.updated,
     required this.links,
-    required this.isBookmarked,
-  }) {
-    isBookmarkedRx.value = isBookmarked;
-  }
+    this.isBookmarked = false,
+  });
 
   factory TvShowModel.fromJson(Map<String, dynamic> json) => TvShowModel(
     id: json["id"],
@@ -76,24 +67,16 @@ class TvShowModel {
     runtime: json["runtime"],
     averageRuntime: json["averageRuntime"],
     premiered: DateTime.parse(json["premiered"]),
-    ended: json["ended"] == null ? null : DateTime.parse(json["ended"]),
     officialSite: json["officialSite"],
     schedule: Schedule.fromJson(json["schedule"]),
     rating: Rating.fromJson(json["rating"]),
     weight: json["weight"],
     network: json["network"] == null ? null : Network.fromJson(json["network"]),
-    webChannel: json["webChannel"] == null
-        ? null
-        : Network.fromJson(json["webChannel"]),
-    dvdCountry: json["dvdCountry"] == null
-        ? null
-        : Country.fromJson(json["dvdCountry"]),
     externals: Externals.fromJson(json["externals"]),
     image: Image.fromJson(json["image"]),
     summary: json["summary"],
     updated: json["updated"],
     links: Links.fromJson(json["_links"]),
-    isBookmarked: json["isBookmarked"] ?? false,
   );
 
   Map<String, dynamic> toJson() => {
@@ -108,21 +91,16 @@ class TvShowModel {
     "averageRuntime": averageRuntime,
     "premiered":
         "${premiered.year.toString().padLeft(4, '0')}-${premiered.month.toString().padLeft(2, '0')}-${premiered.day.toString().padLeft(2, '0')}",
-    "ended":
-        "${ended!.year.toString().padLeft(4, '0')}-${ended!.month.toString().padLeft(2, '0')}-${ended!.day.toString().padLeft(2, '0')}",
     "officialSite": officialSite,
     "schedule": schedule.toJson(),
     "rating": rating.toJson(),
     "weight": weight,
     "network": network?.toJson(),
-    "webChannel": webChannel?.toJson(),
-    "dvdCountry": dvdCountry?.toJson(),
     "externals": externals.toJson(),
     "image": image.toJson(),
     "summary": summary,
     "updated": updated,
     "_links": links.toJson(),
-    "isBookmarked": isBookmarked,
   };
 }
 

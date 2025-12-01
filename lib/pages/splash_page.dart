@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pas_mobile_11pplg2_01/components/widgets/myText_widget.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pas_mobile_11pplg2_01/controllers/splash_controller.dart';
 
 class SplashPage extends StatelessWidget {
@@ -11,6 +11,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // Background gradient
@@ -18,26 +19,18 @@ class SplashPage extends StatelessWidget {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 end: Alignment.bottomRight,
-                colors: [Colors.blue, Colors.lightBlue, Colors.blueAccent],
+                colors: [Colors.white, Colors.white],
               ),
             ),
           ),
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(color: Colors.white),
-                MytextWidget(
-                  text: 'Welcome',
-                  style: TextStyle(
-                    fontSize: 34,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+            child: splashController.isLoading.value
+                ? LottieBuilder.asset(
+                    "assets/animations/load.json",
+                    frameRate: FrameRate(30),
+                    backgroundLoading: false,
+                  )
+                : CircularProgressIndicator(),
           ),
         ],
       ),

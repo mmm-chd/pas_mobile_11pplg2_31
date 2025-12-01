@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SplashController extends GetxController {
   final DbHelper dbHelper = Get.put(DbHelper());
 
+  var isLoading = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -13,13 +15,16 @@ class SplashController extends GetxController {
   }
 
   _checkLoginStatus() async {
+    isLoading.value = true;
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 5));
     if (token != null) {
+      isLoading.value = false;
       Get.offAllNamed(AppRoutes.basePage);
     } else {
+      isLoading.value = false;
       Get.offAllNamed(AppRoutes.loginPage);
     }
   }

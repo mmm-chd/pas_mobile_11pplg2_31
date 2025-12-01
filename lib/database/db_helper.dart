@@ -52,18 +52,20 @@ class DbHelper {
       final client = await db;
       final result = await client.insert('bookmarked', {
         'id': tvShow.id,
-        'data': jsonEncode(tvShow.toJson()), // ✅ Simpan seluruh object
-      }, conflictAlgorithm: ConflictAlgorithm.replace);
+        'data': jsonEncode(tvShow.toJson()),
+      });
       print('✅ Bookmark inserted: ${tvShow.name} with result: $result');
+      print(tvShow.status);
       return result;
     } catch (e) {
+      print('id : ${tvShow.id}');
+      print(tvShow.status);
       print('❌ Error inserting bookmark: $e');
       return -1;
     }
   }
 
   // Get data
-  // Get data - FIXED with better null handling
   Future<List<TvShowModel>> getList() async {
     try {
       final client = await db;
@@ -72,7 +74,7 @@ class DbHelper {
         orderBy: 'id DESC',
       );
 
-      print('📦 Raw data from DB: $data');
+      // print('📦 Raw data from DB: $data');
 
       if (data.isEmpty) {
         print('⚠️ No bookmarks found');
@@ -85,6 +87,7 @@ class DbHelper {
         try {
           // ✅ Ambil data dengan null check
           final dataString = row['data']; // Support old schema
+          // print(row);
 
           if (dataString == null || dataString.toString().isEmpty) {
             print('⚠️ Empty data for row: $row');
@@ -116,15 +119,11 @@ class DbHelper {
     return await client.delete('bookmarked', where: 'id = ?', whereArgs: [id]);
   }
 
-  //Delete semua task
-  Future<void> deleteAllCompleted() async {
-    final client = await db;
-    await client.delete(
-      'bookmarked',
-      where: 'isBookmarked = ?',
-      whereArgs: [1],
-    );
-  }
+  // //Delete semua task
+  // Future<void> deleteAllCompleted() async {
+  //   final client = await db;
+  //   await client.delete('bookmarked', where: 'isBookmarked = ?', whereArgs: [1]);
+  // }
 
   // // Check if ID is bookmarked - FIXED: Tambah method helper
   // Future<bool> isBookmarked(int id) async {

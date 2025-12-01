@@ -22,6 +22,7 @@ class MytextWidget extends StatelessWidget {
       textAlign: textAlign,
       maxLines: maxLines,
       overflow: maxLines != null ? TextOverflow.ellipsis : null,
+      
     );
   }
 }

@@ -6,8 +6,13 @@ class MytextfieldWidget extends StatelessWidget {
   final String label;
   final double? marginTop;
   final TextEditingController controller;
-  final bool? obscureText, readOnly;
-  final GestureTapCallback? onTap;
+  final bool? obscureText,
+      readOnly,
+      enableSuggestion,
+      isShow,
+      enableInteractiveSelection;
+  final GestureTapCallback? onTap, onTapIcon;
+  final Widget? suffixIcon;
 
   const MytextfieldWidget({
     super.key,
@@ -18,6 +23,11 @@ class MytextfieldWidget extends StatelessWidget {
     this.obscureText,
     this.readOnly,
     this.onTap,
+    this.enableSuggestion,
+    this.onTapIcon,
+    this.isShow,
+    this.suffixIcon,
+    this.enableInteractiveSelection,
   });
 
   @override
@@ -32,12 +42,18 @@ class MytextfieldWidget extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          suffixIcon: suffixIcon,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.0),
             borderSide: BorderSide(color: Color(0xFF1976D2)),
           ),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
         ),
+        enableInteractiveSelection: enableInteractiveSelection ?? true,
+        enableSuggestions: enableSuggestion ?? false,
         obscureText: obscureText ?? false,
         readOnly: readOnly ?? false,
         onTap: onTap,
