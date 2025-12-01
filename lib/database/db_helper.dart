@@ -55,11 +55,9 @@ class DbHelper {
         'data': jsonEncode(tvShow.toJson()),
       });
       print('✅ Bookmark inserted: ${tvShow.name} with result: $result');
-      print(tvShow.status);
       return result;
     } catch (e) {
       print('id : ${tvShow.id}');
-      print(tvShow.status);
       print('❌ Error inserting bookmark: $e');
       return -1;
     }
@@ -120,7 +118,7 @@ class DbHelper {
   }
 
   //Delete semua task
-  Future<void> deleteAllCompleted() async {
+  Future<void> deleteAllBookmarked() async {
     final client = await db;
     await client.delete('bookmarked');
   }
