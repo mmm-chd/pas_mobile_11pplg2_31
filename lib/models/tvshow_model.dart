@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-import 'package:get/get.dart';
-
 List<TvShowModel> tvShowModelFromJson(String str) => List<TvShowModel>.from(
   json.decode(str).map((x) => TvShowModel.fromJson(x)),
 );

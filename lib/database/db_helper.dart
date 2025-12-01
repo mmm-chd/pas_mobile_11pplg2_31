@@ -119,11 +119,11 @@ class DbHelper {
     return await client.delete('bookmarked', where: 'id = ?', whereArgs: [id]);
   }
 
-  // //Delete semua task
-  // Future<void> deleteAllCompleted() async {
-  //   final client = await db;
-  //   await client.delete('bookmarked', where: 'isBookmarked = ?', whereArgs: [1]);
-  // }
+  //Delete semua task
+  Future<void> deleteAllCompleted() async {
+    final client = await db;
+    await client.delete('bookmarked');
+  }
 
   // // Check if ID is bookmarked - FIXED: Tambah method helper
   // Future<bool> isBookmarked(int id) async {

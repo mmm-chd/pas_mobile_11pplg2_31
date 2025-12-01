@@ -65,7 +65,6 @@ class RegisterPage extends StatelessWidget {
                 child: Column(
                   children: [
                     const MyspaceWidget(height: 34),
-
                     Expanded(
                       child: Container(
                         decoration: const BoxDecoration(
