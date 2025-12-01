@@ -17,7 +17,7 @@ class BookmarkPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        margin: EdgeInsets.symmetric(vertical: 18),
+        margin: EdgeInsets.symmetric(vertical: 24),
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
@@ -28,7 +28,10 @@ class BookmarkPage extends StatelessWidget {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
               ),
               actions: [
-                MypopupmenubuttonWidget(onTap: () {}, text: 'Delete All'),
+                MypopupmenubuttonWidget(
+                  onTap: bookmarkController.deleteAll,
+                  text: 'Delete All',
+                ),
               ],
             ),
             SliverPadding(
@@ -84,7 +87,7 @@ class BookmarkPage extends StatelessWidget {
 
                     return Card(
                       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      elevation: 2,
+                      elevation: 1.5,
                       child: Padding(
                         padding: EdgeInsets.all(8),
                         child: Row(

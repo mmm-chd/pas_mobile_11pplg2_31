@@ -46,4 +46,10 @@ class BookmarkController extends GetxController {
   bool isBookmarked(int id) {
     return bookmarks.any((b) => b.id == id);
   }
+
+  void deleteAll() async {
+    dbHelper.deleteAllBookmarked();
+    await loadBookmarks();
+    print('Delete all!');
+  }
 }
